@@ -3,6 +3,8 @@
 
 ## Технологии/библиотеки
 ```
+Typescript
+Postgresql
 Bun
 Tanstack Start
 Tanstack Query
