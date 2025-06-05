@@ -2,6 +2,7 @@
 (Скриншоты можно посмотреть в папке screenshots)
 
 ## Технологии/библиотеки
+```
 Bun
 Tanstack Start
 Tanstack Query
@@ -17,7 +18,7 @@ Zod
 Better-Auth
 Tailwind 4
 Shadcn
-
+```
 ## Использованы проекты:
 ```
 https://github.com/jherr/tanstack-better-auth/
