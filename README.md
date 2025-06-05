@@ -40,7 +40,7 @@ cd https://github.com/ram0973/blog-tanstack-start-prisma-trpc-react-shadcn
 
 ## Настройка
 ```
-Скопировать .env в корне проекта в .env.example
+Скопировать .env.example в корне проекта в .env
 Сгенерировать BETTER_AUTH_SECRET например так:
 openssl rand -base64 32
 
