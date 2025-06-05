@@ -37,7 +37,7 @@ https://svag.group/ru/guide/dev-web-iserdmi/lesson/rules
 ## Установка
 ```bash
 git clone https://github.com/ram0973/blog-tanstack-start-prisma-trpc-react-shadcn
-cd https://github.com/ram0973/blog-tanstack-start-prisma-trpc-react-shadcn
+cd blog-tanstack-start-prisma-trpc-react-shadcn
 ```
 
 ## Настройка
