@@ -18,7 +18,7 @@ function DashboardPostsComponent() {
 
   return (
     <>
-      <DataTable data={posts ?? []} columns={columns} />
+      <DataTable data={posts ?? []} columns={columns} findByField="title"/>
     </>
   );
 }

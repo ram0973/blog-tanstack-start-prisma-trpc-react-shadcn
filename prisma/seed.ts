@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { faker } from '@faker-js/faker';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 // import { authClient } from "@/lib/auth-client"; //import the auth client
 //  const { data, error } = await authClient.signUp.email({
