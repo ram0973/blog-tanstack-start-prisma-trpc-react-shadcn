@@ -25,6 +25,7 @@ Shadcn
 ```
 https://github.com/jherr/tanstack-better-auth/
 https://github.com/CarlosZiegler/fullstack-start-template
+https://github.com/satnaing/shadcn-admin/tree/main
 https://svag.group/ru/guide/dev-web-iserdmi/lesson/rules
 ```
 

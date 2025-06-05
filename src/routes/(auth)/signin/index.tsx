@@ -13,7 +13,7 @@ export const Route = createFileRoute('/(auth)/signin/')({
 });
 
 const loginFormSchema = z.object({
-  email: z.string().min(1, { message: 'Title is required' }),
+  email: z.string().min(1, { message: 'Email is required' }),
 });
 
 function LoginForm() {
@@ -33,8 +33,9 @@ function LoginForm() {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
-    if (!email || !password) return;
-
+    if (!email || !password) {
+      return;
+    }
     setIsLoading(true);
     setErrorMessage('');
 
