@@ -19,16 +19,16 @@ Tailwind 4
 Shadcn
 
 ## Использованы проекты:
-
+```
 https://github.com/jherr/tanstack-better-auth/
 https://github.com/CarlosZiegler/fullstack-start-template
 https://svag.group/ru/guide/dev-web-iserdmi/lesson/rules
-
+```
 
 ## Требования
 ```
-Bun https://bun.sh/docs/installation
-Docker https://docs.docker.com/get-started/get-docker/
+[Bun](https://bun.sh/docs/installation)
+[Docker](https://docs.docker.com/get-started/get-docker/)
 (Возможно Node, надо проверить на чистом ПК) https://nodejs.org/en
 ```
 ## Установка
