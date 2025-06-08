@@ -24,25 +24,49 @@ import {
 } from "lucide-react";
 
 import { categories } from "./-categories";
-import { useQuery } from "@tanstack/react-query";
-import { useTRPC } from "@/integrations/trpc/react";
+import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+//import { useTRPC } from "@/integrations/trpc/react";
+import { createServerFn } from "@tanstack/react-start";
+import { prisma } from "@/lib/prisma";
+
+export const fetchHomePosts = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    const posts = await prisma.post.findMany({
+      take: 10,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    const total = await prisma.post.count();
+    return { posts, total };
+  },
+);
+
+export const postsQueryOptions = () =>
+  queryOptions({
+    queryKey: ['homePosts'],
+    queryFn: () => fetchHomePosts(),
+  })
 
 export const Route = createFileRoute("/")({
   errorComponent: () => "Oh crap!",
   loader: async ({ context }) => {
-    await context.queryClient.prefetchQuery(
-      context.trpc.posts.getAll.queryOptions()
-    );
+    // await context.queryClient.prefetchQuery(
+    //   context.trpc.posts.getAll.queryOptions()
+    // );
+    await context.queryClient.ensureQueryData(postsQueryOptions())
   },
   pendingComponent: Spinner,
   component: HomeComponent,
 });
 
 function HomeComponent() {
-  const trpc = useTRPC();
-  const postsQuery = useQuery(trpc.posts.getAll.queryOptions());
-  const posts: Post[] = postsQuery.data || [];
-
+  //const trpc = useTRPC();
+  //const postsQuery = useQuery(trpc.posts.getAll.queryOptions());
+  //const posts: Post[] = postsQuery.data || [];
+  const postsQuery = useSuspenseQuery(postsQueryOptions())
+  const {data} = postsQuery
+  
   return (
     <>
       <Navbar />
@@ -50,7 +74,7 @@ function HomeComponent() {
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Posts</h2>
           <div className="mt-4 space-y-12">
-            {posts.map((post) => (
+            {data.posts.map((post) => (
               <Card
                 key={post.id}
                 className="flex flex-col sm:flex-row gap-4 sm:gap-6 shadow-none overflow-hidden border-none"
