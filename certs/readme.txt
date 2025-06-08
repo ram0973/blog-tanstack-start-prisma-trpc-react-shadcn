@@ -1,6 +1,6 @@
 Генерация ключей для работы сайта через https
-После того как генерация ключей выполнена, для Windows:
-Щелкнуть localhost.p12, далее - далее
+(После того как генерация ключей будет выполнена, для Windows:
+Щелкнуть localhost.p12, далее - далее)
 
 1. Generate CA (Certificate Authority)
 # Generate CA private key
