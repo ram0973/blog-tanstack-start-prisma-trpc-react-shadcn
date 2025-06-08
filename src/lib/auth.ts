@@ -1,10 +1,11 @@
 import { betterAuth } from "better-auth";
+import { openAPI } from "better-auth/plugins"
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { reactStartCookies } from "better-auth/react-start";
 import { prisma } from "./prisma";
 
 export const auth = betterAuth({
-  plugins: [reactStartCookies()],
+  plugins: [reactStartCookies(), openAPI(), ],
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),

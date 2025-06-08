@@ -101,6 +101,10 @@ bun dev
 
 ```
 
+Документация по Better Auth API:
+
+https://localhost/api/auth/reference
+
 ======================
 
 Tanstack START Readme:
