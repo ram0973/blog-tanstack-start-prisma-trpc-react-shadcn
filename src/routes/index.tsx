@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 import { categories } from "./-categories";
-import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 //import { useTRPC } from "@/integrations/trpc/react";
 import { createServerFn } from "@tanstack/react-start";
 import { prisma } from "@/lib/prisma";

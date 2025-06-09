@@ -1,10 +1,10 @@
-import { signOut, useSession } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Link, useNavigate } from "@tanstack/react-router";
 
 export const AvatarDropdown = () => {
-  const { data } = useSession();
+  const { data } = authClient.useSession();
   const navigate = useNavigate();
 
   return (
@@ -25,7 +25,7 @@ export const AvatarDropdown = () => {
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={(e) =>
-              signOut({
+              authClient.signOut({
                 fetchOptions: {
                   onSuccess: () => {
                     navigate({ to: "/" });

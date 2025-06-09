@@ -11,10 +11,10 @@ export default defineConfig({
     appDirectory: "src",
   },
   server: {
-    https: {
-      key: "./certs/localhost-key.pem",
-      cert: "./certs/localhost-cert.pem",
-    },
+    // https: {
+    //   key: "./certs/localhost-key.pem",
+    //   cert: "./certs/localhost-cert.pem",
+    // },
   },
   // server: {
   //   //https: true, // Включает самоподписанный сертификат

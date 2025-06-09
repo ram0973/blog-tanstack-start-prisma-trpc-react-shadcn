@@ -1,55 +1,101 @@
-import * as React from 'react';
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { z } from 'zod';
-import { useQuery } from '@tanstack/react-query';
-import { createRouter } from '@/router';
 import { Spinner } from '@/components/spinner';
-import { useForm } from '@tanstack/react-form'
 import { Input } from '@/components/ui/input';
+import { useForm } from '@tanstack/react-form';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
+import { z } from 'zod';
+
+type HandlerArgs = {
+  data: { userId: number };
+  //request: Request,
+  //context: Server
+};
+
+// export const fetchUserById = createServerFn({ method: 'GET' })
+//   .validator(z.number().nonnegative())
+//   .handler(async ({data}: HandlerArgs) => {
+//     const user = await prisma.user.findUniqueOrThrow({
+//       where: {
+//         id: data.userId,
+//       },
+//     });
+//     return { user };
+//   });
+
+export const userQueryOptions = (userId: string) =>
+  queryOptions({
+    queryKey: ['user', userId],
+    queryFn: async () => {
+      // console.log(userId)
+      // try {
+      // const user = await api.get(`/users/${userId}`)
+      // console.log(user)
+      // } catch(err) {
+      //   console.log(err)
+      // }
+      const response = await fetch(`http://localhost/api/users/${userId}`);
+
+      let user = null
+      if (response.ok) {
+        // если HTTP-статус в диапазоне 200-299
+        // получаем тело ответа (см. про этот метод ниже)
+        user = await response.json();
+      } else {
+        alert('Ошибка HTTP: ' + response.status);
+      }
+
+      return user;
+    },
+  });
 
 export const Route = createFileRoute('/dashboard/users/$userId')({
-  validateSearch: z.object({
-    showNotes: z.boolean().optional(),
-    notes: z.string().optional(),
-  }),
-  loader: async ({ context: { trpc, queryClient }, params: { postId } }) => {
-    await queryClient.ensureQueryData(trpc.users.queryOptions(postId));
+  // loader: async ({ context: { queryClient }, params: { userId } }) => {
+  //   //await queryClient.ensureQueryData(trpc.users.queryOptions(postId));
+  // },
+  loader: async ({ context, params: { userId } }) => {
+    await context.queryClient.ensureQueryData(userQueryOptions(userId));
   },
   pendingComponent: Spinner,
-  component: DashboardPostsPostIdComponent,
+  component: DashboardUserEditComponent,
 });
 
-const postSchema = z.object({
+const userSchema = z.object({
   name: z.string().optional(),
-})
+});
 
-function DashboardPostsPostIdComponent() {
-  const trpc = createRouter()
-  const postId = Route.useParams({ select: (d) => d.postId });
+function DashboardUserEditComponent() {
+  //const trpc = createRouter()
 
-  const { data, isLoading } = useQuery(trpc.post.queryOptions(postId));
-  const post = data;
+  const userId = Route.useParams({ select: (d) => d.userId });
+  const { post } = useSuspenseQuery(userQueryOptions(userId));
+  console.info(post);
+  //const { data, isLoading } = useQuery(trpc.post.queryOptions(userId));
+  //const post = data;
 
-  const search = Route.useSearch();
-  
   if (!post) {
     return <div>Post not found</div>;
   }
 
   const form = useForm({
     defaultValues: {
-      email: "",
+      email: '',
     },
     validators: {
       //onChange: postSchema,
     },
-  })
+    onSubmit: (values) => {
+      console.info(values);
+    },
+  });
+
   return (
     <div>
       Form
-      <form.Field name="title">
-        {(field) => {return <Input value={post.title}/>}}
+      <form.Field name="email">
+        {(field) => {
+          return <Input value={post.title} />;
+        }}
       </form.Field>
     </div>
-  )
+  );
 }

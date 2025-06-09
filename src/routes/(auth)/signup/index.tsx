@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { signUp } from '@/lib/auth-client';
+import { authClient } from '@/lib/auth-client';
 import css from './signup.module.css';
 
 export const Route = createFileRoute('/(auth)/signup/')({
@@ -29,7 +29,9 @@ function SignupForm() {
     const password = formData.get('password') as string;
     const confirmPassword = formData.get('confirm_password') as string;
 
-    if (!name || !email || !password || !confirmPassword) return;
+    if (!name || !email || !password || !confirmPassword) {
+      return;
+    }  
 
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match');
@@ -39,7 +41,7 @@ function SignupForm() {
     setIsLoading(true);
     setErrorMessage('');
 
-    signUp.email(
+    authClient.signUp.email(
       {
         name,
         email,

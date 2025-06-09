@@ -5,11 +5,11 @@ import { NavigationSheet } from "./navigation-sheet";
 import ThemeToggle from "@/components/theme-toggle";
 import { Link } from "@tanstack/react-router";
 
-import { useSession } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 import { AvatarDropdown } from "./avatar-dropdown";
 const Navbar = () => {
   
-  const { data } = useSession();
+  const { data } = authClient.useSession();
   return (
     <div className="bg-muted">
       <nav className="h-16 bg-background border-b">

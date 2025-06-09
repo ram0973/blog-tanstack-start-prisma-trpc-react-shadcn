@@ -1,6 +1,9 @@
+import { signUp } from '@/lib/auth-client';
 import { prisma } from '@/lib/prisma';
 import { faker } from '@faker-js/faker';
 import type { Prisma } from '@prisma/client';
+import { admin } from 'better-auth/plugins/admin';
+
 
 // import { authClient } from "@/lib/auth-client"; //import the auth client
 //  const { data, error } = await authClient.signUp.email({
@@ -22,7 +25,6 @@ for (let index = 0; index < 500; index++) {
     title: faker.lorem.sentence(),
     content: faker.lorem.paragraphs(5),
     published: true,
-
   };
   fakedPosts.push(post)
 }
@@ -34,6 +36,7 @@ const user: Prisma.UserCreateInput = {
     create: fakedPosts
   },
   emailVerified: true,
+  role: 'user',
 };
 
 export async function main() {
