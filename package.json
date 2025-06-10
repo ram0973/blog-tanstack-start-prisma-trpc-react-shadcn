@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vinxi dev --port 443",
+    "dev": "vinxi dev --port 80",
     "start": "vinxi start",
     "build-all": "vinxi build",
     "serve": "vite preview",

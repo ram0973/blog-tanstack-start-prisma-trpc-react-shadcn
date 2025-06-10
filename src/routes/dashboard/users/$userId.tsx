@@ -33,7 +33,9 @@ export const userQueryOptions = (userId: string) =>
       // } catch(err) {
       //   console.log(err)
       // }
-      const response = await fetch(`http://localhost/api/users/${userId}`);
+      const url = `http://localhost/api/auth/admin/list-users/?searchvalue=${userId}`
+      console.log(url)
+      const response = await fetch(url);
 
       let user = null
       if (response.ok) {
@@ -67,12 +69,12 @@ function DashboardUserEditComponent() {
   //const trpc = createRouter()
 
   const userId = Route.useParams({ select: (d) => d.userId });
-  const { post } = useSuspenseQuery(userQueryOptions(userId));
-  console.info(post);
+  const { user } = useSuspenseQuery(userQueryOptions(userId));
+  console.info(user);
   //const { data, isLoading } = useQuery(trpc.post.queryOptions(userId));
   //const post = data;
 
-  if (!post) {
+  if (!user) {
     return <div>Post not found</div>;
   }
 
