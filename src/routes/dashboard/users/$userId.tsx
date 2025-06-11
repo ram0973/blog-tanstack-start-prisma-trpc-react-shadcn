@@ -95,7 +95,7 @@ function DashboardUserEditComponent() {
       Form
       <form.Field name="email">
         {(field) => {
-          return <Input value={post.title} />;
+          return <Input value={user.name} />;
         }}
       </form.Field>
     </div>

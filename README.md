@@ -101,7 +101,7 @@ bun dev
 
 ```
 
-Документация по Better Auth API:
+Документация по Better Auth API во время разработки:
 
 https://localhost/api/auth/reference
 

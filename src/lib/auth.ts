@@ -1,9 +1,8 @@
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { openAPI } from 'better-auth/plugins';
+import { openAPI, admin } from 'better-auth/plugins';
 import { reactStartCookies } from 'better-auth/react-start';
 import { prisma } from './prisma';
-import { admin } from "better-auth/plugins"
 
 export const auth = betterAuth({
   plugins: [reactStartCookies(), openAPI(), admin()],
