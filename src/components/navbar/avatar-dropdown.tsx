@@ -24,7 +24,8 @@ export const AvatarDropdown = () => {
             <Link to="/dashboard">Dashboard</Link>
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={(e) =>
+            onClick={(e) => {
+              e.preventDefault()
               authClient.signOut({
                 fetchOptions: {
                   onSuccess: () => {
@@ -32,7 +33,7 @@ export const AvatarDropdown = () => {
                   },
                 },
               })
-            }
+            }}
           >
             Logout
           </DropdownMenuItem>

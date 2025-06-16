@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { authClient } from "@/lib/auth-client";
 import { Outlet, createFileRoute, useLocation } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/dashboard")({
@@ -44,12 +45,12 @@ function IndexComponent() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-
+          
           <div className="ml-auto flex">
             <div className="mr-2">
               <ThemeToggle />
             </div>
-            <AvatarDropdown />
+            <AvatarDropdown />  
           </div>
         </header>
         <Outlet />
