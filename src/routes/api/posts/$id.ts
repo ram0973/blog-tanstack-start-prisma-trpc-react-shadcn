@@ -12,5 +12,4 @@ export const APIRoute = createAPIFileRoute('/api/posts/$id')({
     });
     return json(user)
   },
-  
 });

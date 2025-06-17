@@ -6,13 +6,14 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { prisma } from '@/lib/prisma';
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { queryOptions, useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import type { ErrorComponentProps } from '@tanstack/react-router';
 import { ErrorComponent, createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import z from 'zod';
 import { postSchema } from './-schema';
 import { CircleAlert } from 'lucide-react';
+import type { Post } from '@prisma/client';
 
 const getPostById = createServerFn()
   //.middleware([authMiddleware])
@@ -27,10 +28,29 @@ const getPostById = createServerFn()
     return { post };
   });
 
-const postQueryOptions = (postId: string) =>
+const savePost = createServerFn()
+  //.middleware([authMiddleware])
+  .validator(postSchema)
+  .handler(async ({post}) => {
+    const updatedPost = await prisma.post.update({
+      where: {
+        id: post.id,
+      },
+      data: {
+        title: post.title,
+        content: post.content,
+        published: post.published,
+        updatedAt: new Date() // Автоматическое обновление времени
+      }
+    });
+    return { updatedPost };
+  });  
+
+const getPostQueryOptions = (postId: string) =>
   queryOptions({
     queryKey: ['posts', postId],
-    queryFn: () => getPostById({ data: { postId } }), // () =>
+    queryFn: () => getPostById({ data: { postId } }), 
+    // () =>
     //   axios
     //     .get<Post>(`${import.meta.env.VITE_APP_URL}api/posts/${id}`)
     //     .then((r) => r.data)
@@ -41,7 +61,7 @@ const postQueryOptions = (postId: string) =>
 
 export const Route = createFileRoute('/dashboard/posts/$postId')({
   loader: async ({ context, params: { postId } }) => {
-    await context.queryClient.ensureQueryData(postQueryOptions(postId));
+    await context.queryClient.ensureQueryData(getPostQueryOptions(postId));
   },
   errorComponent: PostErrorComponent,
   pendingComponent: Spinner,
@@ -75,9 +95,13 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 
 function PostComponent() {
   const params = Route.useParams();
-  const postQuery = useSuspenseQuery(postQueryOptions(params.postId));
+  const postQuery = useSuspenseQuery(getPostQueryOptions(params.postId));
   const post = postQuery.data.post;
-
+  const postSaveMutation = useMutation({
+    mutationFn: (post: Post) => {
+      savePost(post)
+    }
+  })
   const form = useForm({
     defaultValues: {
       title: post.title ?? '',
@@ -105,7 +129,7 @@ function PostComponent() {
       }}
       className="flex flex-col gap-6"
     >
-      <h1 className="text-lg font-bold">Edit post</h1>
+      <h1 className="text-lg font-bold mt-5">Edit post</h1>
 
       <form.Field name="title">
         {(field) => (
